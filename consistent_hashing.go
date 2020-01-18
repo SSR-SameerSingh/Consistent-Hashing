@@ -57,9 +57,10 @@ func start(server int, c chan int) {
 	time.Sleep(time.Second * 1)
 	for i := 0; i < 50; i ++{
 		select {
-		case msg1 := <-c:
-			fmt.Printf("Received request _id %d on server %d, sending response...\n", msg1, server)
+		case req_id := <-c:
+			fmt.Printf("Received request_id %d on server %d, sending response...\n", req_id, server)
 			time.Sleep(time.Second * 1)
+			fmt.Printf("Response sent by server %d for request_id %d \n", server, req_id)
 		default:
 			fmt.Println("No request to process, sitting idle. ;-P", server)
 			time.Sleep(time.Second * 1)
@@ -67,7 +68,7 @@ func start(server int, c chan int) {
 	}
 	wg.Done()
 	close(c)
-	fmt.Printf("Closing server %d. Sayonara !!\n", server)
+	fmt.Printf("-*-*-*-*-*-*-*-*-*-*Closing server %d. Sayonara !!-*-*-*-*-*-*-*-*-*-*\n", server)
 }
 
 func serve_request(request_id int, loc int, server_list []int, chans []chan int) {
